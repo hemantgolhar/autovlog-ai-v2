@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import UploadSection from "@/components/create-project/UploadSection";
 import SelectedFiles from "@/components/create-project/SelectedFiles";
@@ -61,7 +62,7 @@ export default function CreateProjectPage() {
 
     console.log(data);
 
-    // Reset Form
+    // Reset form
     setTripName("");
     setDestination("");
     setTravelStyle("Adventure");
@@ -70,11 +71,13 @@ export default function CreateProjectPage() {
     setMusic("Cinematic Music");
     setOutputFormat("Instagram Reel");
     setFiles(null);
+    setUploadedUrls([]);
   };
 
   return (
     <main className="min-h-screen bg-gray-100">
       <div className="max-w-5xl mx-auto py-10 px-6">
+
         <h1 className="text-4xl font-bold text-green-600">
           Create New AI Travel Vlog
         </h1>
@@ -85,9 +88,7 @@ export default function CreateProjectPage() {
 
         {/* Trip Details */}
         <div className="mt-10 bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold">
-            Trip Details
-          </h2>
+          <h2 className="text-2xl font-bold">Trip Details</h2>
 
           <div className="grid md:grid-cols-2 gap-6 mt-6">
 
@@ -130,6 +131,7 @@ export default function CreateProjectPage() {
 
         {/* AI Settings */}
         <div className="mt-8 bg-white rounded-2xl shadow-lg p-8">
+
           <h2 className="text-2xl font-bold">
             AI Settings
           </h2>
@@ -166,6 +168,7 @@ export default function CreateProjectPage() {
             </select>
 
           </div>
+
         </div>
 
         {/* Upload Section */}
@@ -182,11 +185,12 @@ export default function CreateProjectPage() {
           <button
             onClick={saveProject}
             disabled={loading}
-            className="bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 disabled:bg-gray-400"
+            className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-semibold disabled:bg-gray-400"
           >
             {loading ? "Creating Project..." : "Create Project"}
           </button>
         </div>
+
       </div>
     </main>
   );
