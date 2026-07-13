@@ -1,12 +1,50 @@
 "use client";
 
+import { useState } from "react";
+
 interface UploadSectionProps {
   onFilesSelected: (files: FileList) => void;
+  onUploadComplete: (urls: string[]) => void;
 }
 
 export default function UploadSection({
   onFilesSelected,
+  onUploadComplete,
 }: UploadSectionProps) {
+  const [uploading, setUploading] = useState(false);
+async function handleFiles(files: FileList) {
+  onFilesSelected(files);
+
+  setUploading(true);
+
+  const uploadedUrls: string[] = [];
+
+  try {
+    for (const file of Array.from(files)) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      uploadedUrls.push(data.url);
+    }
+
+    onUploadComplete(uploadedUrls);
+
+    alert("All files uploaded successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Upload failed.");
+  }
+
+  setUploading(false);
+}
+
   return (
     <div className="mt-8 bg-white rounded-2xl shadow-lg p-8">
       <h2 className="text-2xl font-bold">
@@ -36,7 +74,7 @@ export default function UploadSection({
           id="file-upload"
           onChange={(e) => {
             if (e.target.files) {
-              onFilesSelected(e.target.files);
+              handleFiles(e.target.files);
             }
           }}
         />
@@ -45,7 +83,7 @@ export default function UploadSection({
           htmlFor="file-upload"
           className="inline-block mt-6 bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 cursor-pointer"
         >
-          Browse Files
+          {uploading ? "Uploading..." : "Browse Files"}
         </label>
 
         <p className="mt-6 text-sm text-gray-500">
