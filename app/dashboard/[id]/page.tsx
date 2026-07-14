@@ -28,6 +28,9 @@ const [story, setStory] = useState("");
       console.error(error);
     } else {
       setProject(data);
+      if (data.ai_story) {
+  setStory(data.ai_story);
+}
     }
 
     setLoading(false);
@@ -157,7 +160,11 @@ async function generateStory() {
   disabled={generating}
   className="mt-8 bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 disabled:bg-gray-400"
 >
-  {generating ? "Generating AI Story..." : "Generate AI Story"}
+{generating
+  ? "Generating AI Story..."
+  : story
+  ? "Regenerate AI Story"
+  : "Generate AI Story"}
 </button>
 {story && (
   <div className="mt-8 border rounded-xl p-6 bg-green-50">
@@ -170,7 +177,17 @@ async function generateStory() {
     </p>
   </div>
 )}
-
+{story && (
+  <button
+    onClick={() => {
+      navigator.clipboard.writeText(story);
+      alert("Story copied!");
+    }}
+    className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700"
+  >
+    Copy Story
+  </button>
+)}
         </div>
 
       </div>
