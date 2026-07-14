@@ -14,10 +14,11 @@ export async function POST(req: Request) {
       mood,
       voice,
       music,
+       userPrompt,
     } = await req.json();
 
-    const prompt = `
-You are a professional travel documentary writer.
+   const prompt = `
+You are an award-winning travel film director and storyteller.
 
 Create a cinematic travel vlog narration.
 
@@ -28,15 +29,26 @@ Mood: ${mood}
 Narrator Voice: ${voice}
 Music Style: ${music}
 
+${userPrompt ? `
+
+User Instructions:
+${userPrompt}
+
+IMPORTANT:
+Follow the user's instructions while creating the story.
+` : ""}
+
 Write:
+
 - A captivating opening
 - A beautiful travel story
 - Emotional narration
 - A memorable ending
 
+Make the narration feel natural, cinematic and engaging.
+
 Length: around 300 words.
 `;
-
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       messages: [

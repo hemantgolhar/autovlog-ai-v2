@@ -1,9 +1,12 @@
 "use client";
-
+import ProjectHeader from "./components/ProjectHeader";
+import ProjectDetails from "./components/ProjectDetails";
+import AIStory from "./components/AIStory";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProjectGrid from "@/components/dashboard/ProjectGrid";
+
 
 export default function DashboardPage() {
   const [projects, setProjects] = useState<any[]>([]);
